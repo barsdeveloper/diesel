@@ -47,6 +47,10 @@ zero-postgres = { optional = true, version = "=0.8.0", features = [
     "tokio",
     "derive",
 ] }
+tank = { version = "0.44", optional = true }
+tank-postgres = { version = "0.44", optional = true }
+tank-mysql = { version = "0.44", optional = true }
+tank-sqlite = { version = "0.44", optional = true }
 
 [dependencies.diesel-async]
 git = "https://github.com/diesel-rs/diesel_async"
@@ -83,6 +87,9 @@ fast_run = []
 zero-mysql = ["dep:zero-mysql", "tokio"]
 zero-postgres = ["dep:zero-postgres", "tokio"]
 tokio_postgres = ["dep:tokio_postgres", "tokio", "futures-util"]
+tank-postgres = ["dep:tank", "dep:tank-postgres", "tokio"]
+tank-mysql = ["dep:tank", "dep:tank-mysql", "tokio"]
+tank-sqlite = ["dep:tank", "dep:tank-sqlite", "tokio"]
 
 [profile.release]
 lto = true

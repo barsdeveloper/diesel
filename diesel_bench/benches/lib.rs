@@ -14,6 +14,12 @@ mod rust_orm_benches;
 mod sea_orm_benches;
 #[cfg(feature = "sqlx-bench")]
 mod sqlx_benches;
+#[cfg(any(
+    all(feature = "postgres", feature = "tank-postgres"),
+    all(feature = "mysql", feature = "tank-mysql"),
+    all(feature = "sqlite", feature = "tank-sqlite"),
+))]
+mod tank_benches;
 #[cfg(all(feature = "postgres", feature = "tokio_postgres"))]
 mod tokio_postgres_benches;
 #[cfg(all(feature = "wtx", not(feature = "sqlite")))]
@@ -251,6 +257,15 @@ fn bench_trivial_query(c: &mut CriterionType) {
                 crate::zero_postgres_async_benches::bench_trivial_query_by_name(b, *i);
             },
         );
+
+        #[cfg(any(
+            all(feature = "postgres", feature = "tank-postgres"),
+            all(feature = "mysql", feature = "tank-mysql"),
+            all(feature = "sqlite", feature = "tank-sqlite"),
+        ))]
+        group.bench_with_input(BenchmarkId::new("tank", size), size, |b, i| {
+            crate::tank_benches::bench_trivial_query(b, *i);
+        });
     }
 
     group.finish();
@@ -391,6 +406,15 @@ fn bench_medium_complex_query(c: &mut CriterionType) {
                 crate::zero_postgres_async_benches::bench_medium_complex_query(b, *i);
             },
         );
+
+        #[cfg(any(
+            all(feature = "postgres", feature = "tank-postgres"),
+            all(feature = "mysql", feature = "tank-mysql"),
+            all(feature = "sqlite", feature = "tank-sqlite"),
+        ))]
+        group.bench_with_input(BenchmarkId::new("tank", size), size, |b, i| {
+            crate::tank_benches::bench_medium_complex_query(b, *i);
+        });
     }
 
     group.finish();
@@ -467,6 +491,15 @@ fn bench_loading_associations_sequentially(c: &mut CriterionType) {
     #[cfg(all(feature = "postgres", feature = "zero-postgres"))]
     group.bench_function("zero_postgres_async", |b| {
         crate::zero_postgres_async_benches::loading_associations_sequentially(b);
+    });
+
+    #[cfg(any(
+        all(feature = "postgres", feature = "tank-postgres"),
+        all(feature = "mysql", feature = "tank-mysql"),
+        all(feature = "sqlite", feature = "tank-sqlite"),
+    ))]
+    group.bench_function("tank", |b| {
+        crate::tank_benches::loading_associations_sequentially(b);
     });
 
     group.finish();
@@ -548,6 +581,15 @@ fn bench_insert(c: &mut CriterionType) {
                 crate::zero_postgres_async_benches::bench_insert(b, *i);
             },
         );
+
+        #[cfg(any(
+            all(feature = "postgres", feature = "tank-postgres"),
+            all(feature = "mysql", feature = "tank-mysql"),
+            all(feature = "sqlite", feature = "tank-sqlite"),
+        ))]
+        group.bench_with_input(BenchmarkId::new("tank", size), size, |b, i| {
+            crate::tank_benches::bench_insert(b, *i);
+        });
     }
 
     group.finish();

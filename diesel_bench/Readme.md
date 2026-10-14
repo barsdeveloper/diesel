@@ -23,6 +23,7 @@ and the following crates:
 * [Mysql](https://github.com/blackbeam/rust-mysql-simple)
 * [diesel-async](https://github.com/weiznich/diesel_async)
 * [wtx](https://github.com/c410-f3r/wtx)
+* [Tank](https://github.com/TankHQ/tank)
 
 By default only diesels own benchmarks are executed. To run the benchmark do the following:
 
@@ -42,6 +43,7 @@ To enable other crates add the following features:
 * `Mysql`: `rust-mysql $backend`
 * `diesel-async`: `diesel-async diesel-async/$backend $backend tokio`
 * `wtx`: `$backend tokio/rt-multi-thread wtx`
+* `Tank`: `tank-$backend $backend tokio`
 
 ## Benchmarks
 
